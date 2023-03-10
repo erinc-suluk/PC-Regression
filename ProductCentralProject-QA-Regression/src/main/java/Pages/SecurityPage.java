@@ -4,6 +4,7 @@ package Pages;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -29,6 +30,9 @@ public class SecurityPage extends HelperFunctions {
 	@FindBy(xpath="//div[@id='sortingDropdown']")
 	private WebElement sortingDropdown;
 	
+	@FindBy(xpath="//div[@class='cmp-legal-product-listing__tiles']//a")
+	private static List<WebElement> securityTiles2;
+	
 	static Logger logger=Logger.getLogger("SecurityPage");
 	
 	public void setSecurityTiles() {
@@ -50,7 +54,68 @@ public class SecurityPage extends HelperFunctions {
        System.out.println("Sorting Dropdown is displayed  :" + sd);
      
 	}
+	public void setProductNameLength() {
+		HelperFunctions.waitForPageToLoad(5);
 	
+		for (WebElement product : securityTiles2) {
+			  String productNameText = product.getText();
+			  int productNameWidth = product.getSize().getWidth();
+			  int productNameLength = productNameText.length();
+
+			  if (productNameLength > productNameWidth) {
+			    String ellipses = productNameText.substring(productNameLength - 3, productNameLength);
+			    Assert.assertEquals(ellipses, "...");
+			  } else {
+			    Assert.assertTrue(true); 
+			  }
+			}
+     
+	}
+	
+	public void setProductAlignment() {
+		HelperFunctions.waitForPageToLoad(5);
+	
+		for (WebElement product : securityTiles2) {
+		   
+		    WebElement parentElement = product.findElement(By.xpath("./*"));
+		    int parentHeight = parentElement.getSize().getHeight();
+
+		    WebElement productNameElement = product.findElement(By.cssSelector("span"));
+		    int productNameHeight = productNameElement.getSize().getHeight();
+
+		 
+		    int productNameMarginTop = Integer.parseInt(productNameElement.getCssValue("margin-top").replaceAll("[^0-9]", ""));
+
+		   
+		    int productNameMarginBottom = Integer.parseInt(productNameElement.getCssValue("margin-bottom").replaceAll("[^0-9]", ""));
+
+		    
+		    int totalProductNameHeight = productNameHeight + productNameMarginTop + productNameMarginBottom;
+
+		   
+		    int expectedMarginTop = (parentHeight - totalProductNameHeight) / 2;
+		    int actualMarginTop = productNameMarginTop;
+		    Assert.assertEquals(expectedMarginTop, actualMarginTop);
+		}
+	}
+	public void setTilesHeight() {
+		HelperFunctions.waitForPageToLoad(5);
+	
+		int previousHeight = -1;
+
+		for (WebElement product : securityTiles2) {
+	
+		    int currentHeight = product.getSize().getHeight();
+
+	
+		    if (previousHeight > 0) {
+		        Assert.assertEquals(previousHeight, currentHeight);
+		    }
+
+		
+		    previousHeight = currentHeight;
+		}
+	}
 	
 	
 	

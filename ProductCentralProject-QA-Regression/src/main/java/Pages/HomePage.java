@@ -21,6 +21,7 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.StaleElementReferenceException;
@@ -198,6 +199,51 @@ public class HomePage extends HelperFunctions {
 	@FindBy(xpath="//div[@class='cmp-tiles__entries']//a[1]")
 	private static WebElement firstTile;
 	
+	@FindBy(xpath="//div[@id='faqsTooltipDisplayButton']")
+	private static WebElement needHelp;
+	
+	@FindBy(xpath="//div[@class='cmp-faqs-tooltip__links']//a")
+	private static List<WebElement> tooltipLinks;
+	
+	@FindBy(xpath="//button[@class='onetrust-close-btn-handler onetrust-close-btn-ui banner-close-button ot-close-icon']")
+	private static WebElement closeButtonforCookies;
+	
+	@FindBy(xpath="(//div[@class='cmp-search-results__card-title'])[1]")
+	private WebElement firstSearchResult;
+	
+	@FindBy(xpath="//span[@class='cmp-search-results__empty-text']")
+	private WebElement noSearchResult;
+	
+	@FindBy(xpath="//div[@class='cmp-search-results__page ap-page-container']//a")
+	private static List<WebElement> searchProducts2;
+	
+	@FindBy(xpath="//div[@class='ap-dropdown-option-item']//input")
+	private static List<WebElement> products;
+	
+	@FindBy(xpath="//div[@class='ap-dropdown-option-item']//label")
+	private static List<WebElement> productsLabel;
+	
+	@FindBy(xpath="//div[@class='ap-dropdown-list show']//div")
+	private static List<WebElement> sortingElements;
+	
+	@FindBy(xpath="//div[@class='ap-dropdown-list show']//div[1]")
+	private WebElement firstSortingElement;
+	
+	@FindBy(xpath="//div[@class='ap-dropdown-list show']//div[2]")
+	private WebElement secondSortingElement;
+	
+	@FindBy(xpath="//div[@class='ap-dropdown-list show']//div[position()>1]")
+	private static List<WebElement> otherSortingElements;
+	
+	@FindBy(xpath="//div[@class='cmp-search-results__card-title']")
+	private static List<WebElement> cardTitles;
+	
+	@FindBy(xpath="//h1[@class='cmp-search-results__filter-section-title-heading']")
+	private WebElement searchResultsTitle;
+	
+	@FindBy(xpath="//a[@class='cmp-breadcrumb__link']")
+	private WebElement breadcrumbSearchpage;
+	
 	
 	ReadXLSdata read2=new ReadXLSdata();
 	
@@ -355,7 +401,592 @@ public void setClickability() throws Exception {
 
 	}
 }
+
+public void setItemsinNeedHelp() throws Exception {
+	HelperFunctions.waitForPageToLoad(5);
+	HelperFunctions.staticWait(2);
+	if (closeButtonforCookies.isDisplayed() && closeButtonforCookies.isEnabled()) {
+	    // Click the accept cookies button
+		closeButtonforCookies.click();
+	    System.out.println("Close cookies.");
+	} else {
+	    System.out.println("Cookies already closed.");
+	}
+	HelperFunctions.staticWait(2);
+	needHelp.click();
+	HelperFunctions.staticWait(2);
+	for(WebElement eachLink:tooltipLinks) {
+		if(eachLink.isDisplayed()) {
+			String successMessage = "Each link is displayed";
+	        logger.info(successMessage);
+		Assert.assertTrue(true);
+		}else {
+			 String errorMessage = "Each link is not displayed";
+		        logger.error(errorMessage);
+		        throw new Exception(errorMessage);
+
+		}
+	}
 	
+}
+public void setItemsinNeedHelpExpandCollapse() throws Exception {
+	HelperFunctions.waitForPageToLoad(5);
+	HelperFunctions.staticWait(2);
+	if (closeButtonforCookies.isDisplayed() && closeButtonforCookies.isEnabled()) {
+	    // Click the accept cookies button
+		closeButtonforCookies.click();
+	    System.out.println("Close cookies.");
+	} else {
+	    System.out.println("Cookies already closed.");
+	}
+	HelperFunctions.staticWait(2);
+	needHelp.click();
+	HelperFunctions.staticWait(2);
+	for(WebElement eachLink:tooltipLinks) {
+		if(eachLink.isDisplayed()) {
+			String successMessage = "Each link is displayed";
+	        logger.info(successMessage);
+		Assert.assertTrue(true);
+		}else {
+			 String errorMessage = "Each link is not displayed";
+		        logger.error(errorMessage);
+		        throw new Exception(errorMessage);
+
+		}
+	}
+	HelperFunctions.staticWait(2);
+	needHelp.click();
+	HelperFunctions.staticWait(2);
+	for(WebElement eachLink:tooltipLinks) {
+		if(!eachLink.isDisplayed()) {
+			String successMessage = "Each link is not displayed";
+	        logger.info(successMessage);
+		Assert.assertTrue(true);
+		}else {
+			 String errorMessage = "Each link still is displayed";
+		        logger.error(errorMessage);
+		        throw new Exception(errorMessage);
+
+		}
+	}
+	
+}
+
+public void setSearchResult() {
+	   HelperFunctions.waitForPageToLoad(3);
+	searchButton.click();
+	HelperFunctions.staticWait(3);
+	
+    searchInput.sendKeys("products");
+    searchInput.sendKeys(Keys.ENTER);
+    HelperFunctions.staticWait(3);
+    productDropdown.click();
+    String expectedProductName="master-data-management";
+    for(int i=0; i<productCheckbox.size(); i++) {
+ 	   if(productCheckbox.get(i).getAttribute("id").equalsIgnoreCase(expectedProductName)) {
+ 		   productCheckbox.get(i).click();
+ 	   }
+    }
+    productDropdown.click();
+    HelperFunctions.staticWait(3);
+    String actualProductName=resultContainer.getAttribute("data-product-name");
+    System.out.println(actualProductName);
+    Assert.assertEquals(actualProductName, expectedProductName);
+    resultContainer.click();
+   // HelperFunctions.staticWait(3);
+   // breadCrumb.click();
+    HelperFunctions.staticWait(3);
+    String actualTitle=oneStopTitle.getText();
+    String expectedTitle="Master Data Management";
+    Assert.assertEquals(actualTitle, expectedTitle);
+    breadCrumb.click();
+    HelperFunctions.staticWait(3);
+    searchProducts.click();
+    searchProducts.sendKeys(expectedTitle);
+    optionItem.click();
+    HelperFunctions.staticWait(3);
+    String actualTitle2=resultLink.getAttribute("data-product-name");
+    Assert.assertEquals(actualTitle2, expectedTitle);
+
+
+}
+
+public void setLimitOfSearchResults() {
+	   HelperFunctions.waitForPageToLoad(3);
+	searchButton.click();
+	HelperFunctions.staticWait(3);
+	
+ searchInput.sendKeys("products");
+ searchInput.sendKeys(Keys.ENTER);
+ HelperFunctions.staticWait(3);
+ if (closeButtonforCookies.isDisplayed() && closeButtonforCookies.isEnabled()) {
+		
+		closeButtonforCookies.click();
+	    System.out.println("Close cookies.");
+	} else {
+	    System.out.println("Cookies already closed.");
+	}
+ HelperFunctions.staticWait(2);
+ productDropdown.click();
+ for (int i = 0; i < 20 && i < products.size(); i++) {
+	    WebElement checkBox = products.get(i);
+	    if (!checkBox.isSelected()) {
+	        checkBox.click();
+	    }
+	}
+ HelperFunctions.staticWait(2);
+ productDropdown.click();
+ 
+ HelperFunctions.staticWait(2);
+	
+	int webElementsListSize = searchProducts2.size();
+
+	int elementsPerPage = 10;
+
+	for (int i = 0; i < elementsPerPage; i++) {
+	    System.out.println(searchProducts2.get(i).getText());
+	}
+
+	if (webElementsListSize > elementsPerPage) {
+	
+	    WebElement nextButton = Driver.getDriver().findElement(By.xpath("(//span[@class='ap-pagination-btn-text'])[2]"));
+	    HelperFunctions.scrollToElement(nextButton);
+	    nextButton.click();
+
+	    for (int i = elementsPerPage; i < webElementsListSize; i++) {
+	        System.out.println(searchProducts2.get(i).getText());
+	    }
+	}
+
+
+}
+public void setOrangeSearchResults() {
+	
+	 HelperFunctions.waitForPageToLoad(3);
+		searchButton.click();
+		HelperFunctions.staticWait(3);
+		
+	 searchInput.sendKeys("products");
+	 searchInput.sendKeys(Keys.ENTER);
+	 HelperFunctions.staticWait(3);
+	 if (closeButtonforCookies.isDisplayed() && closeButtonforCookies.isEnabled()) {
+			
+			closeButtonforCookies.click();
+		    System.out.println("Close cookies.");
+		} else {
+		    System.out.println("Cookies already closed.");
+		}
+	 HelperFunctions.staticWait(2);
+	 productDropdown.click();
+	 for (int i = 0; i < 1 && i < products.size(); i++) {
+		    WebElement checkBox = products.get(i);
+		    if (!checkBox.isSelected()) {
+		        checkBox.click();
+		    }
+		}
+	 HelperFunctions.staticWait(2);
+	 productDropdown.click();
+	HelperFunctions.staticWait(2);
+	
+	String expectedColorValue = "rgba(208, 74, 2, 1)";
+	String colorValue2 = firstSearchResult.getCssValue("color");
+	System.out.println(colorValue2);
+	
+	Actions actions = new Actions(Driver.getDriver());
+	actions.moveToElement(firstSearchResult).build().perform();
+	HelperFunctions.staticWait(2);
+	String colorValue = firstSearchResult.getCssValue("color");
+	System.out.println(colorValue);
+	Assert.assertTrue(colorValue.contains(expectedColorValue));
+	
+
+	
+
+	
+}
+public void setBlackSearchResults() {
+	
+	 HelperFunctions.waitForPageToLoad(3);
+		searchButton.click();
+		HelperFunctions.staticWait(3);
+		
+	 searchInput.sendKeys("products");
+	 searchInput.sendKeys(Keys.ENTER);
+	 HelperFunctions.staticWait(3);
+	 if (closeButtonforCookies.isDisplayed() && closeButtonforCookies.isEnabled()) {
+			
+			closeButtonforCookies.click();
+		    System.out.println("Close cookies.");
+		} else {
+		    System.out.println("Cookies already closed.");
+		}
+	 HelperFunctions.staticWait(2);
+	 productDropdown.click();
+	 for (int i = 0; i < 1 && i < products.size(); i++) {
+		    WebElement checkBox = products.get(i);
+		    if (!checkBox.isSelected()) {
+		        checkBox.click();
+		    }
+		}
+	 HelperFunctions.staticWait(2);
+	 productDropdown.click();
+	HelperFunctions.staticWait(2);
+	
+	String expectedColorValue = "rgba(45, 45, 45, 1)";
+	String colorValue2 = firstSearchResult.getCssValue("color");
+	System.out.println(colorValue2);
+	HelperFunctions.staticWait(2);
+	String colorValue = firstSearchResult.getCssValue("color");
+	System.out.println(colorValue);
+	Assert.assertTrue(colorValue.contains(expectedColorValue));
+	
+
+	
+
+	
+}
+public void setLineItems() {
+	
+	 HelperFunctions.waitForPageToLoad(3);
+		searchButton.click();
+		HelperFunctions.staticWait(3);
+		
+	 searchInput.sendKeys("products");
+	 searchInput.sendKeys(Keys.ENTER);
+	 HelperFunctions.staticWait(3);
+	 if (closeButtonforCookies.isDisplayed() && closeButtonforCookies.isEnabled()) {
+			
+			closeButtonforCookies.click();
+		    System.out.println("Close cookies.");
+		} else {
+		    System.out.println("Cookies already closed.");
+		}
+	 HelperFunctions.staticWait(2);
+	 productDropdown.click();
+	 for (int i = 0; i < 4 && i < products.size(); i++) {
+		    WebElement checkBox = products.get(i);
+		    if (!checkBox.isSelected()) {
+		        checkBox.click();
+		    }
+		}
+	 HelperFunctions.staticWait(2);
+	 productDropdown.click();
+	HelperFunctions.staticWait(2);
+	
+	for (WebElement searchResultElement : searchProducts2) {
+	    if(searchResultElement.getAttribute("href")!=null) {
+	    	Assert.assertTrue(true);
+	    }else {
+	    	 String errorMessage = "Verification failed";
+		        logger.error(errorMessage);
+	    }
+	}
+	
+
+	
+
+	
+}
+public void setMultiselectDropdown() {
+	
+	 HelperFunctions.waitForPageToLoad(3);
+		searchButton.click();
+		HelperFunctions.staticWait(3);
+		
+	 searchInput.sendKeys("products");
+	 searchInput.sendKeys(Keys.ENTER);
+	 HelperFunctions.staticWait(3);
+	 productDropdown.click();
+	 for (int i = 0; i < 4 && i < products.size(); i++) {
+		    WebElement checkBox = products.get(i);
+		    if (!checkBox.isSelected()) {
+		        checkBox.click();
+		    }
+		}
+	 HelperFunctions.staticWait(2);
+	 for (int i = 0; i < 4 && i < products.size(); i++) {
+		    WebElement checkBox = products.get(i);
+		    if (checkBox.isSelected()) {
+		        Assert.assertTrue(true);
+		    }else {
+		    	 String errorMessage = "Verification failed";
+			        logger.error(errorMessage);
+		    }
+		}
+	HelperFunctions.staticWait(2);
+	
+	
+	
+}
+public void setNotMultiSelectSortingDropdown() {
+	
+	 HelperFunctions.waitForPageToLoad(3);
+		searchButton.click();
+		HelperFunctions.staticWait(3);
+		
+	 searchInput.sendKeys("products");
+	 searchInput.sendKeys(Keys.ENTER);
+	 HelperFunctions.staticWait(3);
+	 if (closeButtonforCookies.isDisplayed() && closeButtonforCookies.isEnabled()) {
+			
+			closeButtonforCookies.click();
+		    System.out.println("Close cookies.");
+		} else {
+		    System.out.println("Cookies already closed.");
+		}
+	 HelperFunctions.staticWait(2);
+	 sortingDropdown.click();
+	 HelperFunctions.staticWait(2);
+	 firstSortingElement.click();
+	 HelperFunctions.staticWait(2);
+	 for(WebElement each:otherSortingElements) {
+		 if(!each.isDisplayed()) {
+			 
+			 Assert.assertTrue(true);
+		    }else {
+		    	 String errorMessage = "Verification failed";
+			        logger.error(errorMessage);
+		    }
+	 }
+   
+
+	
+
+	
+}
+public void setSortingSearchResult() {
+	
+	 HelperFunctions.waitForPageToLoad(3);
+		searchButton.click();
+		HelperFunctions.staticWait(3);
+		
+	 searchInput.sendKeys("products");
+	 searchInput.sendKeys(Keys.ENTER);
+	 HelperFunctions.staticWait(3);
+	 if (closeButtonforCookies.isDisplayed() && closeButtonforCookies.isEnabled()) {
+			
+			closeButtonforCookies.click();
+		    System.out.println("Close cookies.");
+		} else {
+		    System.out.println("Cookies already closed.");
+		}
+	 HelperFunctions.staticWait(2);
+	 sortingDropdown.click();
+	 HelperFunctions.staticWait(2);
+	 firstSortingElement.click();
+	 
+	 List<String> cardTitles2 = new ArrayList<>();
+     for (WebElement cardTitleElement : cardTitles) {
+         cardTitles2.add(cardTitleElement.getText());
+     }
+
+     List<String> first10CardTitles = cardTitles2.subList(0, Math.min(10, cardTitles2.size()));
+     List<String> sortedFirst10CardTitles = new ArrayList<>(first10CardTitles);
+     Collections.sort(sortedFirst10CardTitles);
+     boolean areFirst10CardTitlesSorted = first10CardTitles.equals(sortedFirst10CardTitles);
+     if (areFirst10CardTitlesSorted) {
+    	 Assert.assertTrue(true);
+         System.out.println("The card titles are in alphabetical order.");
+     } else {
+    	 String errorMessage = "Verification failed";
+	        logger.error(errorMessage);
+   
+     }
+	
+     HelperFunctions.staticWait(2);
+	 sortingDropdown.click();
+	 HelperFunctions.staticWait(2);
+	 secondSortingElement.click();
+	 HelperFunctions.staticWait(2);
+	 List<String> cardTitles3 = new ArrayList<>();
+     for (WebElement cardTitleElement2 : cardTitles) {
+         cardTitles3.add(cardTitleElement2.getText().trim());
+     }
+     List<String> first10CardTitles2 = cardTitles3.subList(0, Math.min(10, cardTitles3.size()));
+     List<String> sortedFirst10CardTitles2 = new ArrayList<>(first10CardTitles2);
+     Collections.sort(sortedFirst10CardTitles2, Collections.reverseOrder());
+     boolean areFirst10CardTitlesSorted2 = first10CardTitles2.equals(sortedFirst10CardTitles2);
+     if (areFirst10CardTitlesSorted2) {
+    	 Assert.assertTrue(true);
+         System.out.println("The card titles are in reverse alphabetical order.");
+     } else {
+    	 String errorMessage = "Verification failed";
+	        logger.error(errorMessage);
+  
+     }
+
+	
+
+	
+}
+public void setTitleofThePage() {
+	
+	 HelperFunctions.waitForPageToLoad(3);
+		searchButton.click();
+		HelperFunctions.staticWait(3);
+		
+	 searchInput.sendKeys("products");
+	 searchInput.sendKeys(Keys.ENTER);
+	 HelperFunctions.staticWait(3);
+	 if (closeButtonforCookies.isDisplayed() && closeButtonforCookies.isEnabled()) {
+			
+			closeButtonforCookies.click();
+		    System.out.println("Close cookies.");
+		} else {
+		    System.out.println("Cookies already closed.");
+		}
+	 HelperFunctions.staticWait(2);
+	 System.out.println(searchResultsTitle.getText());
+	 if(searchResultsTitle.getText().equalsIgnoreCase("Search results")) {
+		 Assert.assertTrue(true);
+	 }else {
+		 String errorMessage = "Verification failed";
+	        logger.error(errorMessage);
+	 }
+	
+  
+
+	
+
+	
+}
+public void setNavigateHomepage() {
+	
+	 HelperFunctions.waitForPageToLoad(3);
+		searchButton.click();
+		HelperFunctions.staticWait(3);
+		
+	 searchInput.sendKeys("products");
+	 searchInput.sendKeys(Keys.ENTER);
+	 HelperFunctions.waitForPageToLoad(3);
+	 HelperFunctions.staticWait(3);
+	
+	 breadcrumbSearchpage.click();
+	 HelperFunctions.waitForPageToLoad(5);
+	 if(promotionBanner.isDisplayed()) {
+		 Assert.assertTrue(true);
+	 }else {
+		 String errorMessage = "Verification failed";
+	        logger.error(errorMessage);
+	 }
+
+	
+}
+public void setBackoHomeBreadcrumb() {
+	
+	 HelperFunctions.waitForPageToLoad(3);
+		searchButton.click();
+		HelperFunctions.staticWait(3);
+		
+	 searchInput.sendKeys("products");
+	 searchInput.sendKeys(Keys.ENTER);
+	 HelperFunctions.waitForPageToLoad(3);
+	 HelperFunctions.staticWait(3);
+	 System.out.println(breadcrumbSearchpage.getText());
+	 if(breadcrumbSearchpage.isDisplayed()) {
+		 Assert.assertTrue(true);
+	 }else {
+		 String errorMessage = "Verification failed";
+	        logger.error(errorMessage);
+	 }
+
+	
+}
+public void setColorDifferences() {
+	
+	 HelperFunctions.waitForPageToLoad(3);
+		searchButton.click();
+		HelperFunctions.staticWait(3);
+		
+	 searchInput.sendKeys("products");
+	 searchInput.sendKeys(Keys.ENTER);
+	 HelperFunctions.waitForPageToLoad(3);
+	 HelperFunctions.staticWait(2);
+	 productDropdown.click();
+	 for (int i = 0; i < 1 && i < products.size(); i++) {
+		    WebElement checkBox = products.get(i);
+		    if (!checkBox.isSelected()) {
+		        checkBox.click();
+		    }
+		}
+	 HelperFunctions.staticWait(2);
+	 productDropdown.click();
+	HelperFunctions.staticWait(2);
+	
+	String expectedColorValue = "rgba(45, 45, 45, 1)";
+	String colorValue2 = firstSearchResult.getCssValue("color");
+	System.out.println(colorValue2);
+	HelperFunctions.staticWait(2);
+	String colorValue = firstSearchResult.getCssValue("color");
+	System.out.println(colorValue);
+	Assert.assertTrue(colorValue.contains(expectedColorValue));
+	HelperFunctions.staticWait(2);
+	String expectedColorValue2 = "rgba(208, 74, 2, 1)";
+	String colorValue3 = firstSearchResult.getCssValue("color");
+	System.out.println(colorValue3);
+	
+	Actions actions = new Actions(Driver.getDriver());
+	actions.moveToElement(firstSearchResult).build().perform();
+	HelperFunctions.staticWait(2);
+	String colorValue4 = firstSearchResult.getCssValue("color");
+	System.out.println(colorValue4);
+	Assert.assertTrue(colorValue4.contains(expectedColorValue2));
+	
+
+	
+}
+public void setFilterMatchingSearchResults() {
+	
+	 HelperFunctions.waitForPageToLoad(3);
+		searchButton.click();
+		HelperFunctions.staticWait(3);
+		
+	 searchInput.sendKeys("products");
+	 searchInput.sendKeys(Keys.ENTER);
+	 HelperFunctions.staticWait(3);
+	 productDropdown.click();
+	 for (int i = 0; i < 1 && i < products.size(); i++) {
+		    WebElement checkBox = products.get(i);
+		    if (!checkBox.isSelected()) {
+		        checkBox.click();
+		    }
+		}
+	 HelperFunctions.staticWait(2);
+	 for (int i = 0; i < 1 && i < productsLabel.size(); i++) {
+		    WebElement checkBox = productsLabel.get(i);
+		    String firstProduct=productsLabel.get(i).getText();
+		    System.out.println(firstProduct);
+		    HelperFunctions.staticWait(2);
+			 productDropdown.click();
+		    if(firstSearchResult.getText().equals(firstProduct)) {
+		    	 Assert.assertTrue(true);
+			 }else {
+				 String errorMessage = "Verification failed";
+			        logger.error(errorMessage);
+			 }
+		}
+	 HelperFunctions.staticWait(2);
+	
+	
+}
+public void setTwoFilteronGlobalSearchResult() throws Exception {
+	HelperFunctions.waitForPageToLoad(3);
+	searchButton.click();
+	HelperFunctions.staticWait(3);
+	
+    searchInput.sendKeys("products");
+    searchInput.sendKeys(Keys.ENTER);
+    if(productDropdown.isDisplayed() && catDropdown.isDisplayed() && sortingDropdown.isDisplayed()) {
+    	 String successMessage = "dropdowns are displayed";
+	        logger.info(successMessage);
+    	Assert.assertTrue(true);
+    }else {
+    	 String errorMessage = "dropdowns are not displayed";
+	        logger.error(errorMessage);
+	        throw new Exception(errorMessage);
+    
+    }
+}
 	 
 	
 

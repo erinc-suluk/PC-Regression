@@ -508,9 +508,98 @@ public class AuthoringPage extends HelperFunctions {
 	@FindBy(xpath="//img[@src='/content/pc/us/en/automation/sitemapfortesting.thumb.48.48.png?ck=']")
 	private WebElement sitemapImg;
 	
+	@FindBy(xpath="//h1[@class='cmp-privacy-hub-header__product-name']")
+	private WebElement pwcLogo;
 	
+	@FindBy(xpath="//div[@class='cmp-banner cmp-product-banner cmp-banner__scheduledMaintenance wcmmode']")
+	private WebElement banner;
 	
+	@FindBy(xpath="(//button[@data-layer='Edit'])[2]")
+	private WebElement editBanner;
 	
+	@FindBy(xpath="//button[@data-layer='Preview']")
+	private WebElement previewBanner;
+	
+	@FindBy(xpath="//div[@title='Notification Banner']")
+	private WebElement bannerArea;
+	
+	@FindBy(xpath="//button[@data-action='CONFIGURE']")
+	private WebElement settingsBanner;
+	
+	@FindBy(xpath="//coral-select[@name='./bannerType']")
+	private WebElement bannerDrop;
+	
+	@FindBy(xpath="//coral-selectlist-item[@value='scheduledMaintenance']")
+	private WebElement scheduledBanner;
+	
+	@FindBy(xpath="//img[@src='/conf/pc/settings/wcm/templates/landing-page-template-product-central/thumbnail.png']")
+	private WebElement landingPageTemplate;
+	
+	@FindBy(xpath="//img[@src='/content/pc/us/en/automation/legal.thumb.48.48.png?ck=']")
+	private WebElement legalPageImg;
+	
+	@FindBy(xpath="(//button[@trackingelement='create'])[2]")
+	private WebElement createButton3;
+	
+	@FindBy(xpath="//a[@icon='workflow']")
+	private WebElement workflowIcon;
+	
+	@FindBy(xpath="//span[@class=' coral3-Select-label']")
+	private WebElement workflowDropdown;
+	
+	@FindBy(xpath="//coral-selectlist-item[@value='/var/workflow/models/pc-express-publish-workflow/pc-express-publish-workflow']")
+	private WebElement publishWorkflow;
+	
+	@FindBy(xpath="//input[@name='workflowTitle']")
+	private WebElement workflowTitle;
+
+	@FindBy(xpath="//img[@src='/content/pc/us/en/automation/legal.thumb.48.48.png?ck=1676765374000']")
+	private WebElement legalPageImgforPublish;
+	
+	@FindBy(xpath="(//time[@role='presentation'])[2]")
+	private WebElement presentationDate;
+	
+	@FindBy(xpath="//coral-card-title[@class='foundation-collection-item-title coral3-Card-title']")
+	private static List<WebElement> pdfTitles;
+	
+	@FindBy(xpath="//button[@trackingelement='properties']")
+	private WebElement properties2;
+	
+	@FindBy(tagName="coral-tab-label")
+	private static List<WebElement> tabs;
+	
+	@FindBy(xpath="//coral-selectlist-item[@value='/var/workflow/models/pc-approval-workflow/pc-approval-workflow']")
+	private WebElement approvalWorkflow;
+	
+	@FindBy(xpath="//coral-icon[@icon='bell']")
+	private WebElement bellIcon;
+	
+	@FindBy(xpath="//a[@href='/aem/inbox']")
+	private WebElement aemInbox;
+	
+	@FindBy(xpath="//coral-table-row-selectcheckbox[@role='checkbox']")
+	private static List<WebElement> tasks;
+	
+	@FindBy(xpath="(//button[@trackingelement='complete'])[2]")
+	private WebElement completeButton;
+	
+	@FindBy(xpath="(//input[@class='coral-InputGroup-input js-coral-Autocomplete-textfield autocomplete-has-suggestion-btn coral3-Textfield'])[1]")
+	private WebElement assignGroup;
+	
+	@FindBy(xpath="//button[@trackingelement='ok']")
+	private WebElement okButton;
+	
+	@FindBy(xpath="(//div[@class='foundation-layout-flexmedia-bd-singleline'])[1]")
+	private WebElement user;
+	
+	@FindBy(xpath="//coral-selectlist-item[@value='/var/workflow/models/pc-unpublish/pc-unpublish-workflow']")
+	private WebElement unpublishWorkflow;
+	
+	@FindBy(xpath="(//coral-columnview-preview-value[@role='textbox'])[7]")
+	private WebElement unpublishInfo;
+	
+	@FindBy(xpath="//label[@class='coral-Form-errorlabel']")
+	private WebElement errorMessage;
 
 	
 	
@@ -1776,6 +1865,140 @@ js.executeScript("window.open()");
  
  
  }
+ public void setUnpublishWorkflow2() throws Exception {
+	 	
+     Driver.getDriver().get("https://auth-productcentral-qa.products.pwc.com/sites.html/content/pc/us/en/automation");
+	    HelperFunctions.waitForPageToLoad(5);
+	    legalPageImg.click();
+	    JavascriptExecutor executor1 = (JavascriptExecutor) Driver.getDriver();
+     executor1.executeScript("arguments[0].click();", legalPageImg);
+     HelperFunctions.staticWait(3);
+     JavascriptExecutor executor2 = (JavascriptExecutor) Driver.getDriver();
+     executor2.executeScript("arguments[0].click();", legalPageImg);
+	    HelperFunctions.staticWait(3);
+	    createButton3.click();
+	    HelperFunctions.staticWait(3);
+	    workflowIcon.click();
+	    HelperFunctions.staticWait(3); 
+	    workflowDropdown.click();
+	    HelperFunctions.staticWait(3); 
+	    unpublishWorkflow.click();
+	    HelperFunctions.staticWait(3); 
+	    workflowTitle.click();
+	    workflowTitle.sendKeys("Testing");
+	    HelperFunctions.staticWait(2);
+	    nextButton.click();
+	    HelperFunctions.staticWait(3);
+	    legalPageImgforPublish.click();
+	    HelperFunctions.staticWait(2);
+	    createButton2.click();
+	    HelperFunctions.waitForPageToLoad(5);
+	    legalPageImg.click();
+	   
+     System.out.println(unpublishInfo.getText());
+     if(unpublishInfo.getText().contains("Not published")) {
+     	Assert.assertTrue(true);
+     }else {
+	    	String errorMessage = "Page is not unpublished";
+	        logger.error(errorMessage);
+	        throw new Exception(errorMessage);
+	    }
+    // legalPageImg.click();
+	    JavascriptExecutor executor5 = (JavascriptExecutor) Driver.getDriver();
+  executor5.executeScript("arguments[0].click();", legalPageImg);
+  HelperFunctions.staticWait(3);
+  JavascriptExecutor executor6 = (JavascriptExecutor) Driver.getDriver();
+  executor6.executeScript("arguments[0].click();", legalPageImg);
+     HelperFunctions.staticWait(2);
+     quickPublish2.click();
+     HelperFunctions.staticWait(2);
+     publish2.click();
+     HelperFunctions.staticWait(2);
+}
+ public void setExpressWorkflowApproval() throws Exception {
+	 	
+     Driver.getDriver().get("https://auth-productcentral-qa.products.pwc.com/sites.html/content/pc/us/en/automation");
+	    HelperFunctions.waitForPageToLoad(5);
+	    HelperFunctions.staticWait(3);
+	    legalPageImg.click();
+	    JavascriptExecutor executor1 = (JavascriptExecutor) Driver.getDriver();
+     executor1.executeScript("arguments[0].click();", legalPageImg);
+     HelperFunctions.staticWait(3);
+     JavascriptExecutor executor2 = (JavascriptExecutor) Driver.getDriver();
+     executor2.executeScript("arguments[0].click();", legalPageImg);
+	    HelperFunctions.staticWait(3);
+	    createButton3.click();
+	    HelperFunctions.staticWait(3);
+	    workflowIcon.click();
+	    HelperFunctions.staticWait(3); 
+	    workflowDropdown.click();
+	    HelperFunctions.staticWait(3); 
+	    publishWorkflow.click();
+	    HelperFunctions.staticWait(3); 
+	    workflowTitle.click();
+	    workflowTitle.sendKeys("Testing");
+	    HelperFunctions.staticWait(2);
+	    nextButton.click();
+	    HelperFunctions.staticWait(3);
+	    legalPageImgforPublish.click();
+	    HelperFunctions.staticWait(2);
+	    createButton2.click();
+	    HelperFunctions.waitForPageToLoad(5);
+	    legalPageImg.click();
+	    JavascriptExecutor executor3 = (JavascriptExecutor) Driver.getDriver();
+     executor3.executeScript("arguments[0].click();", legalPageImg);
+     HelperFunctions.staticWait(3);
+     JavascriptExecutor executor4 = (JavascriptExecutor) Driver.getDriver();
+     executor4.executeScript("arguments[0].click();", legalPageImg);
+     if(presentationDate.getText().equalsIgnoreCase("a few seconds ago")) {
+     	Assert.assertTrue(true);
+     }else {
+	    	String errorMessage = "Not publish on workflow option";
+	        logger.error(errorMessage);
+	        throw new Exception(errorMessage);
+	    }
+}
+ public void setWorkflowApproval2() throws Exception {
+	 	
+     Driver.getDriver().get("https://auth-productcentral-qa.products.pwc.com/sites.html/content/pc/us/en/automation");
+	    HelperFunctions.waitForPageToLoad(5);
+	    legalPageImg.click();
+	    JavascriptExecutor executor1 = (JavascriptExecutor) Driver.getDriver();
+     executor1.executeScript("arguments[0].click();", legalPageImg);
+     HelperFunctions.staticWait(3);
+     JavascriptExecutor executor2 = (JavascriptExecutor) Driver.getDriver();
+     executor2.executeScript("arguments[0].click();", legalPageImg);
+	    HelperFunctions.staticWait(3);
+	    createButton3.click();
+	    HelperFunctions.staticWait(3);
+	    workflowIcon.click();
+	    HelperFunctions.staticWait(3); 
+	    workflowDropdown.click();
+	    HelperFunctions.staticWait(3); 
+	    publishWorkflow.click();
+	    HelperFunctions.staticWait(3); 
+	    workflowTitle.click();
+	    workflowTitle.sendKeys("testing");
+	    HelperFunctions.staticWait(2); 
+	    workflowTitle.clear();
+	    HelperFunctions.staticWait(2);
+	    if(nextButton.getAttribute("disabled")==null) {
+	    	Assert.assertTrue(true);
+	    }else {
+	    	String errorMessage = "Next button is clickable with empty Workflow titles which is mandatory";
+	        logger.error(errorMessage);
+	        throw new Exception(errorMessage);
+	    }
+	    HelperFunctions.staticWait(2);
+	    if(errorMessage.isDisplayed()) {
+	    	Assert.assertTrue(true);
+	    }else {
+	    	String errorMessage = "Workflow title is not mandatory";
+	        logger.error(errorMessage);
+	        throw new Exception(errorMessage);
+	    }
+    
+}
  
     
     

@@ -7,9 +7,9 @@
         <methods>
           <include name="setUp"/>
           <include name="closeTabs"/>
+          <include name="WEB_63"/>
           <include name="initTest"/>
           <include name="closingBrowser"/>
-          <include name="WEB_15"/>
         </methods>
       </class> <!-- com.pwc.productcentral.RegressionTestCases -->
     </classes>

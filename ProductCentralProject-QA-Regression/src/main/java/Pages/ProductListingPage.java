@@ -157,8 +157,32 @@ public class ProductListingPage extends HelperFunctions {
 	@FindBy(xpath="//div[@class='cmp-document-tiles__entry-info-container']//div[2]")
 	private static List<WebElement> productDescriptions;
 	
+	@FindBy(xpath="//div[@id='productDropdown']")
+	private WebElement portfolioDropdown;
 	
+	@FindBy(xpath="//div[@class='ap-dropdown-list show']//div")
+	private static List<WebElement> productList;
 	
+	@FindBy(xpath="//a[@class='cmp-product-list__card-link']")
+	private static List<WebElement> productListElements;
+	
+	@FindBy(xpath="//div[@class='cmp-document-tiles__entry-title']")
+	private static List<WebElement> titleofElements;
+	
+	@FindBy(xpath="//div[@class='cmp-document-tiles__entry-desc']")
+	private static List<WebElement> descriptionofElements;
+	
+	@FindBy(xpath="//div[@class='cmp-document-tiles__entry-image-container']//img")
+	private static List<WebElement> thumbnailofElements;
+	
+	@FindBy(xpath="(//div[@class='cmp-document-tiles__entry-info-container'])[1]")
+	private WebElement firstTile;
+	
+	@FindBy(xpath="//button[@class='onetrust-close-btn-handler onetrust-close-btn-ui banner-close-button ot-close-icon']")
+	private static WebElement closeButtonforCookies;
+	
+	@FindBy(xpath="//div[@class='cmp-product-list__card-img']//img")
+	private static List<WebElement> thumbnails;
 	
 	static Logger logger=Logger.getLogger("ProductListingPage");
 	
@@ -560,11 +584,227 @@ public class ProductListingPage extends HelperFunctions {
 		Assert.assertTrue(pageTitle.toLowerCase().contains(linkText.substring(0, 4).toLowerCase()));
 		
 	}
+	public void setPortfolioDropdown() throws Exception {
+		HelperFunctions.waitForPageToLoad(5);
+		HelperFunctions.staticWait(2);
+		if(portfolioDropdown.isDisplayed()) {
+			Assert.assertTrue(true);
+		}else {
+			String errorMessage = "Portfolio dropdown is not displayed";
+	        logger.error(errorMessage);
+	        throw new Exception(errorMessage);
+		}
+		
+		
+	}
+	public void setPortfolioDropdownHoverOver() throws Exception {
+		HelperFunctions.waitForPageToLoad(5);
+		HelperFunctions.staticWait(2);
+		if(portfolioDropdown.isDisplayed()) {
+			Assert.assertTrue(true);
+		}else {
+			String errorMessage = "Portfolio dropdown is not displayed";
+	        logger.error(errorMessage);
+	        throw new Exception(errorMessage);
+		}
+		HelperFunctions.staticWait(2);
+		portfolioDropdown.click();
+		for(WebElement each:productList) {
+			if(each.isDisplayed()) {
+				Assert.assertTrue(true);
+			}else {
+				String errorMessage = "Products are not displayed";
+		        logger.error(errorMessage);
+		        throw new Exception(errorMessage);
+			}
+		}
+		
+	}
+	
+	public void setTitleDescriptionThumbnail() throws Exception {
+		HelperFunctions.waitForPageToLoad(5);
+		HelperFunctions.staticWait(2);
+		productListElements.get(0).click();
+		HelperFunctions.waitForPageToLoad(5);
+		for(WebElement eachTitle:titleofElements) {
+			if(eachTitle.getText()!=null) {
+				Assert.assertTrue(true);
+			}else {
+				String errorMessage = "Title equals null value";
+		        logger.error(errorMessage);
+		        throw new Exception(errorMessage);
+			}
+		}
+		HelperFunctions.staticWait(2);
+		for(WebElement eachDesc:descriptionofElements) {
+			if(eachDesc.getText()!=null) {
+				Assert.assertTrue(true);
+			}else {
+				String errorMessage = "Description equals null value";
+		        logger.error(errorMessage);
+		        throw new Exception(errorMessage);
+			}
+		}
+		HelperFunctions.staticWait(2);
+		for(WebElement eachThumb:thumbnailofElements) {
+			if(eachThumb.getAttribute("src")!=null) {
+				Assert.assertTrue(true);
+			}else {
+				String errorMessage = "Thumbnail equals null value";
+		        logger.error(errorMessage);
+		        throw new Exception(errorMessage);
+			}
+		}
+		HelperFunctions.staticWait(2);
+	}
+	
+	public void setZeroTiles() throws Exception {
+		HelperFunctions.waitForPageToLoad(5);
+		HelperFunctions.staticWait(2);
+		
+		 if (closeButtonforCookies.isDisplayed() && closeButtonforCookies.isEnabled()) {
+				
+				closeButtonforCookies.click();
+			    System.out.println("Close cookies.");
+			} else {
+			    System.out.println("Cookies already closed.");
+			}
+		 HelperFunctions.staticWait(2);
+		 for (int i = 0; i < productListElements.size(); i++) {
+			 if (!productListElements.get(i).isDisplayed()) {
+				  JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+	                js.executeScript("arguments[0].scrollIntoView(true);", productListElements.get(i));
+	                try {
+	                    Thread.sleep(1000); 
+	                } catch (InterruptedException e) {
+	                    e.printStackTrace();
+	                }
+	            }
+			 
+			 productListElements.get(i).click();
+	            if (firstTile.isDisplayed()) {
+	                System.out.println("Tile displayed for element " + i);
+	            } else {
+	                System.out.println("Tile not displayed for element " + i);
+	            }
+	          
+	            Driver.getDriver().navigate().back();
+	        }
+		HelperFunctions.waitForPageToLoad(5);
+		
+	}
+	
+	public void setLightUpThumbnail() throws Exception {
+		HelperFunctions.waitForPageToLoad(5);
+		HelperFunctions.staticWait(2);
+		
+		 if (closeButtonforCookies.isDisplayed() && closeButtonforCookies.isEnabled()) {
+				
+				closeButtonforCookies.click();
+			    System.out.println("Close cookies.");
+			} else {
+			    System.out.println("Cookies already closed.");
+			}
+		  Actions actions = new Actions(Driver.getDriver());
+		 HelperFunctions.staticWait(2);
+		 for (int i = 0; i < thumbnails.size(); i++) {
+			 if (!thumbnails.get(i).isDisplayed()) {
+				  JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+	                js.executeScript("arguments[0].scrollIntoView(true);", productListElements.get(i));
+	                try {
+	                    Thread.sleep(1000); 
+	                } catch (InterruptedException e) {
+	                    e.printStackTrace();
+	                }
+	            }
+			 String initialColor = thumbnails.get(i).getCssValue("opacity");
+			 actions.moveToElement(thumbnails.get(i)).perform();
+			 String actualEffect = thumbnails.get(i).getCssValue("opacity");
+			 if (!initialColor.equals(actualEffect)) {
+	                System.out.println("Thumbnail " + i + " changes opacity when hovered over");
+	            } else {
+	                System.out.println("Thumbnail " + i + " does not change opacity when hovered over");
+	            }
+	        }
+	        
+		 HelperFunctions.staticWait(2);
+		
+	}
 	
 	
 	
+	public void setDescriptionOfTiles() {
+		HelperFunctions.waitForPageToLoad(5);
+		HelperFunctions.staticWait(2);
+		
+		 if (closeButtonforCookies.isDisplayed() && closeButtonforCookies.isEnabled()) {
+				
+				closeButtonforCookies.click();
+			    System.out.println("Close cookies.");
+			} else {
+			    System.out.println("Cookies already closed.");
+			}
+		 HelperFunctions.staticWait(2);
+		 for (int i = 0; i < productListElements.size(); i++) {
+			 if (!productListElements.get(i).isDisplayed()) {
+				  JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+	                js.executeScript("arguments[0].scrollIntoView(true);", productListElements.get(i));
+	                try {
+	                    Thread.sleep(1000); 
+	                } catch (InterruptedException e) {
+	                    e.printStackTrace();
+	                }
+	            }
+			 
+			 productListElements.get(i).click();
+			 for(WebElement eachDescription: descriptionofElements) {
+					System.out.println(eachDescription.getCssValue("-webkit-line-clamp"));
+					if(eachDescription.getCssValue("-webkit-line-clamp").equals("3")) {
+						Assert.assertTrue(true);
+					}else {
+						Assert.assertTrue(false);
+						
+					}
+				}
+	            Driver.getDriver().navigate().back();
+	        }
+		 HelperFunctions.staticWait(2);
+		
+		
+	
+	}
+	public void setMatchingTitleAndDescription() throws Exception {
+		HelperFunctions.waitForPageToLoad(5);
+		productListElements.get(0).click();
+		HelperFunctions.waitForPageToLoad(5);
+		List<String> titles = new ArrayList<String>();
+		List<String> descriptions = new ArrayList<String>();
+
+		for (WebElement titleElement : titleofElements) {
+		    titles.add(titleElement.getText());
+		}
+		for (WebElement descElement : descriptionofElements) {
+		    descriptions.add(descElement.getText());
+		}
+		for (int i = 0; i < titles.size(); i++) {
+		    String title = titles.get(i);
+		    String desc = descriptions.get(i);
+		    String titlePrefix = title.substring(0, 4).toLowerCase();
+		    if (desc.toLowerCase().contains(titlePrefix)) {
+		    	 String successMessage = "Title and description match for element";
+			        logger.info(successMessage);
+		    } else {
+		    	 String errorMessage = "Title and description do not match for element"+i;
+			        logger.error(errorMessage);
+			        throw new Exception(errorMessage);
+		       
+		    }
+		}
+         
+			 
 	
 	
+	}
 	
 	
    

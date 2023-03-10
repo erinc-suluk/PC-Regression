@@ -10,6 +10,7 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -168,6 +169,22 @@ public class LegalPage extends HelperFunctions {
 	            }
 		
 	}
+	public void setProductsNamePresent() {
+		HelperFunctions.waitForPageToLoad(5);
+		   JavascriptExecutor js2 = (JavascriptExecutor) Driver.getDriver();
+		    js2.executeScript("window.scrollBy(0,200)", "");
+		    HelperFunctions.staticWait(2);
+		 for (WebElement title : legalTilesTitle) {
+			 if(title.isDisplayed()) {
+				 Assert.assertTrue(true);
+			 }else {
+				 String errorMessage = "Product names is not present on the page";
+			        logger.error(errorMessage);
+			 }
+	            }
+		
+	}
+	
 	
 	
 	

@@ -5,11 +5,15 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -216,19 +220,86 @@ public class ProductPage extends HelperFunctions {
 	@FindBy(xpath="//ol[@class='cmp-tabs__tablist']//a//li//div//span[1]")
 	private static List<WebElement> allProducts;
 	
+	@FindBy(xpath="//span[@class='cmp-tabs__title-container-view-more view-all-js']")
+	private WebElement viewAll;
+	
+	@FindBy(xpath="//span[@id='closeTabsModal']")
+	private WebElement closeTabs;
+	
+	@FindBy(xpath="(//div[@class='ap-modal-content'])[4]//a")
+	private static List<WebElement> allProducts2;
+	
+	@FindBy(xpath="//div[@class='cmp-tabs__products-modal-text-container']")
+	private static List<WebElement> productsCont;
+	
+	@FindBy(xpath="//div[@class='cmp-header__cta-avatar']")
+	private WebElement avatar;
+	 
+	@FindBy(xpath="//a[@aria-label='Logout']")
+	private WebElement logout;
+ 
+	@FindBy(xpath="//div[@class='cmp-banner cmp-product-banner cmp-banner__outage ']")
+	private WebElement banner;
+
+    @FindBy(xpath="//span[@aria-label='Banner close icon']")
+	private WebElement bannerClose;
+
+	@FindBy(xpath="//h1[@class='cmp-title__text']")
+	private WebElement myproductTitle;
+
+	@FindBy(xpath="(//div[@class='ap-modal-content'])[2]//a")
+	private static List<WebElement> allProducts3;
+	
+	@FindBy(xpath="(//div[@class='ap-modal-content'])[2]")
+	private WebElement modalBox;
+	
+	@FindBy(xpath="//span[@class='ap-icon icon-open-in-new-outline']")
+	private WebElement footerIcon;
+	
+	@FindBy(xpath="//div[@class='cmp-hero-promotion__content']")
+	private WebElement heroPromotionContent;
+	
+	@FindBy(xpath="//div[@class='cmp-hero-promotion__image']")
+	private WebElement heroPromotionImg;
+	
+	@FindBy(xpath="//span[@class='cmp-search-results__left-panel-products-badge-title']")
+	private WebElement productFilter;
+	
+	@FindBy(xpath="(//div[@class='cmp-search-results__card-title'])[1]")
+	private WebElement firstSearchResult;
+	
+	@FindBy(xpath="//span[@class='cmp-search-results__empty-text']")
+	private WebElement noSearchResult;
+	
+	@FindBy(xpath="//div[@class='cmp-search-results__page ap-page-container']//a")
+	private static List<WebElement> searchProducts;
+	
+	@FindBy(xpath="//button[@class='onetrust-close-btn-handler onetrust-close-btn-ui banner-close-button ot-close-icon']")
+	private static WebElement closeButtonforCookies;
+	
+	@FindBy(xpath="//div[@class='ap-dropdown-option-item']//input")
+	private static List<WebElement> products;
+	
+	@FindBy(xpath="//div[@class='ap-dropdown-option-item']//label")
+	private static List<WebElement> productsLabel;
+	
+	@FindBy(xpath="//h1[@class='cmp-search-results__filter-section-title-heading']")
+	private WebElement searchResultsTitle;
+	
+	@FindBy(xpath="//button[@id='searchButtonHeader']")
+	private WebElement searchButton;
+	
+	@FindBy(xpath="//input[@id='globalSearchInput']")
+	private WebElement searchInput;
 	
 	
-	
-	
-	
-	
-	
+
 	
 	
 	ReadXLSdata read1=new ReadXLSdata();
 	
 	
-	
+	static Logger logger=Logger.getLogger("ProductPage");
 	
 	
 	
@@ -626,21 +697,21 @@ public void setClickLoadLessButton() {
 public void setTitleOfAssets() {
 	
 	HelperFunctions.waitForPageToLoad(5);
-    for(int i=0;i<allProducts.size();i++) {
+   /* for(int i=0;i<allProducts.size();i++) {
 		allProducts.get(0).click();
 		break;
     }
-	HelperFunctions.waitForPageToLoad(3);
+	HelperFunctions.waitForPageToLoad(3);*/
 	HelperFunctions.scrollToElement(forYouTitle);
-    int hasMoreThan3Line=0;
+    int hasMoreThan4Line=0;
     System.out.println(titleofAssets.size());
 	for(WebElement eachTitleOfAssets: titleofAssets) {
 		System.out.println(eachTitleOfAssets.getCssValue("-webkit-line-clamp"));
-		if(eachTitleOfAssets.getCssValue("-webkit-line-clamp").equals("3")) {
+		if(eachTitleOfAssets.getCssValue("-webkit-line-clamp").equals("4")) {
 			Assert.assertTrue(true);
 		}else {
-			hasMoreThan3Line++;
-			System.out.println(hasMoreThan3Line);
+			hasMoreThan4Line++;
+			System.out.println(hasMoreThan4Line);
 			Assert.assertTrue(false);
 //			logger.error("The description is more than 6 lines");
 			
@@ -676,18 +747,33 @@ public void setActiveTab() {
 }
 
 public void setFirstTabActive() throws Exception {
-	HelperFunctions.waitForPageToLoad(5);
-	myProductOnLeftNavigation.click();
-	HelperFunctions.waitForPageToLoad(5);
-	read1.setExcelFile("./testdata.xlsx", "QA");
-	String activeColor=read1.getCellData("VALUE", 39);
-	String fp=firstProduct.getCssValue("color");
-	if(fp.equals(activeColor)) {
-		Assert.assertTrue(true);
-	}else {
-    	Assert.assertTrue(false);
+    HelperFunctions.waitForPageToLoad(5);
+    HelperFunctions.staticWait(3);
+    myProductOnLeftNavigation.click();
+    HelperFunctions.waitForPageToLoad(5);
+    viewAll.click();
+    HelperFunctions.staticWait(2);
+    /*read1.setExcelFile("./testdata.xlsx", "QA");
+    String activeColor=read1.getCellData("VALUE", 39);
+    String fp=firstProduct.getCssValue("color");
+    if(fp.equals(activeColor)) {
+        Assert.assertTrue(true);
+    }else {
+        Assert.assertTrue(false);
+    }*/
+    int index=0;
+    WebElement firstTab=productsCont.get(index);
+    WebElement eyeIcon=firstTab.findElement(By.xpath("//span[@class='ap-icon icon-view-outline']"));
+    if(eyeIcon!=null) {
+         String successMessage = "First tab is active";
+         logger.info(successMessage);
+        Assert.assertTrue(true);
+    }else {
+         String errorMessage = "First tab is not active";
+         logger.error(errorMessage);
+         throw new Exception(errorMessage);
+    //    Assert.assertTrue(false);
     }
-    
 
 }
 
@@ -726,38 +812,54 @@ public void setUserInitials() throws Exception {
 
 
 
-public void setInfoOfProducts() {
-	HelperFunctions.waitForPageToLoad(5);
-    for(int i=0;i<allProducts.size();i++) {
-		allProducts.get(0).click();
-		break;
-    }
-    HelperFunctions.staticWait(3);
-    HelperFunctions.scrollToElement(forYouTitle);
-	WebElement first = titleofAssets.stream().findFirst().get();
-	System.out.println(first.getText());
-	System.out.println("----");
-    HelperFunctions.staticWait(3);
-	JavascriptExecutor js2 = ((JavascriptExecutor) Driver.getDriver());
-	js2.executeScript("window.scrollBy(0,-1200)", "");
-	HelperFunctions.staticWait(3);
+public void setInfoOfProducts() throws Exception {
+ HelperFunctions.waitForPageToLoad(5);
+ HelperFunctions.staticWait(3);
+ viewAll.click();
+ HelperFunctions.staticWait(2);
+ for(int i=0;i<allProducts2.size();i++) {
+ allProducts2.get(2).click();
+  break;}
+HelperFunctions.staticWait(3);
+JavascriptExecutor executor1 = (JavascriptExecutor) Driver.getDriver();
+ executor1.executeScript("arguments[0].click();", closeTabs);
+ HelperFunctions.staticWait(3);
+ HelperFunctions.scrollToElement(forYouTitle);
+ WebElement first = titleofAssets.stream().findFirst().get();
+ System.out.println(first.getText());
+ System.out.println("----");
+ HelperFunctions.staticWait(3);
+ JavascriptExecutor js2 = ((JavascriptExecutor) Driver.getDriver());
+ js2.executeScript("window.scrollBy(0,-1200)", "");
+ HelperFunctions.staticWait(3);
+ viewAll.click();
+ HelperFunctions.staticWait(2);
 
-	for(int i=0;i<allProducts.size();i++) {
-		allProducts.get(1).click();
-		break;
-    }
-	HelperFunctions.staticWait(3);
-	HelperFunctions.scrollToElement( forYouTitle);
-	HelperFunctions.staticWait(3);
-    WebElement first2 = titleofAssets.stream().findFirst().get();
-	System.out.println(first2.getText());
-	HelperFunctions.staticWait(3);
-	Assert.assertNotEquals(first, first2);
+ for(int i=0;i<allProducts2.size();i++) {
+allProducts2.get(3).click();
+break;}
+HelperFunctions.staticWait(3);
+JavascriptExecutor executor2 = (JavascriptExecutor) Driver.getDriver();
+ executor2.executeScript("arguments[0].click();", closeTabs);
+HelperFunctions.staticWait(3);
+ HelperFunctions.scrollToElement( forYouTitle);
+ HelperFunctions.staticWait(3);
+ WebElement first2 = titleofAssets.stream().findFirst().get();
+ System.out.println(first2.getText());
+ HelperFunctions.staticWait(3);
+ Assert.assertNotEquals(first, first2);
+if (first.equals(first2)) {
+String errorMessage = "Titles are not supposed to match but they match";
+logger.error(errorMessage);
+throw new Exception(errorMessage);
+}else {
+String successMessage = "Titles are not supposed to match and they do not match";
+logger.info(successMessage);} }
 
-   
-   
-    
-}
+
+
+
+
 
 public void setRelatedProducts() throws Exception {
 
@@ -836,6 +938,377 @@ public void setTechnicalSupport() throws Exception {
 
 }
 
+public void setProductSorting() throws Exception {
+    HelperFunctions.waitForPageToLoad(5);
+    HelperFunctions.staticWait(3);
+    myProductOnLeftNavigation.click();
+    HelperFunctions.waitForPageToLoad(5);
+    viewAll.click();
+    HelperFunctions.staticWait(2);
+    int index=0;
+    WebElement firstTab=productsCont.get(index);
+    WebElement eyeIcon=firstTab.findElement(By.xpath("//span[@class='ap-icon icon-view-outline']"));
+    if(eyeIcon!=null) {
+         String successMessage = "First tab is active";
+         logger.info(successMessage);
+        Assert.assertTrue(true);
+    }else {
+         String errorMessage = "First tab is not active";
+         logger.error(errorMessage);
+         throw new Exception(errorMessage);
+    }
+    
+    List<String> elementTexts = new ArrayList<String>();
+
+    for (WebElement element : allProducts3) {
+      elementTexts.add(element.getText());
+    }
+
+    List<String> sortedElementTexts = new ArrayList<String>(elementTexts);
+    Collections.sort(sortedElementTexts);
+
+    if (elementTexts.equals(sortedElementTexts)) {
+      System.out.println("The list of products is in alphabetical order.");
+    } else {
+      System.out.println("The list of products is not in alphabetical order.");
+    }
+
+}
+
+public void setModalClose() throws Exception {
+
+	HelperFunctions.waitForPageToLoad(5);
+	viewAll.click();
+	HelperFunctions.staticWait(2);
+    for(int i=0;i<allProducts3.size();i++) {
+		allProducts3.get(0).click();
+		break;
+    }
+    HelperFunctions.staticWait(3);
+    if(modalBox.isDisplayed()) {
+    	 String errorMessage = "Modal is not closed";
+         logger.error(errorMessage);
+    }else {
+    	String successMessage = "Modal is closed";
+        logger.info(successMessage);
+    }
+
+}
+
+public void setViewAllVisibility() throws Exception {
+
+	HelperFunctions.waitForPageToLoad(5); 
+    HelperFunctions.staticWait(3);
+    if(!viewAll.isDisplayed()) {
+    	 String errorMessage = "Modal is not closed";
+         logger.error(errorMessage);
+    }else {
+    	String successMessage = "Modal is closed";
+        logger.info(successMessage);
+    }
+
+}
+
+public void setFooterIconVisibility() throws Exception {
+
+	HelperFunctions.waitForPageToLoad(5); 
+    HelperFunctions.staticWait(3);
+    HelperFunctions.scrollToElement(footerContent);
+    if(!footerIcon.isDisplayed()) {
+    	 String errorMessage = "Modal is not closed";
+         logger.error(errorMessage);
+    }else {
+    	String successMessage = "Modal is closed";
+        logger.info(successMessage);
+    }
+
+}
+public void setBannerPersistance() throws Exception {
+
+	HelperFunctions.waitForPageToLoad(5); 
+    HelperFunctions.staticWait(3);
+    if(!banner.isDisplayed()) {
+    	 String errorMessage = "Banner is not displayed";
+         logger.error(errorMessage);
+    }else {
+    	String successMessage = "Banner is displayed";
+        logger.info(successMessage);
+    }
+    bannerClose.click();
+    HelperFunctions.staticWait(2);
+    Driver.getDriver().navigate().refresh();
+    HelperFunctions.waitForPageToLoad(5); 
+    if(!banner.isDisplayed()) {
+   	 String errorMessage = "Banner is not displayed";
+        logger.error(errorMessage);
+   }else {
+   	String successMessage = "Banner is displayed";
+       logger.info(successMessage);
+   }
+}
+public void setHeroPromotionDesign() throws Exception {
+
+	HelperFunctions.waitForPageToLoad(5); 
+    HelperFunctions.staticWait(3);
+    WebElement parentElement = Driver.getDriver().findElement(By.xpath("//div[@class='cmp-hero-promotion']"));
+
+ WebElement contentElement = parentElement.findElement(By.xpath("//div[@class='cmp-hero-promotion__content']"));
+
+ WebElement imageElement = parentElement.findElement(By.xpath("//div[@class='cmp-hero-promotion__image']"));
+
+
+ if (contentElement != null && imageElement != null) {
+     System.out.println("Verification successful");
+ } else {
+     System.out.println("Verification failed");
+ }
+}
+
+public void setMyProductSearchResults() {
+	
+	HelperFunctions.waitForPageToLoad(3);
+	myProductSearchField.click();
+	myProductSearchField.sendKeys("Check-In");
+	myProductSearchField.sendKeys(Keys.ENTER);
+	HelperFunctions.waitForPageToLoad(3);
+	if(firstSearchResult.getText().contains("Check-In")) {
+		Assert.assertTrue(true);
+	}else {
+		 String errorMessage = "Check-In is not displayed";
+	        logger.error(errorMessage);
+	}
+	HelperFunctions.staticWait(2);
+	productFilter.click();
+	HelperFunctions.staticWait(2);
+	 if(!noSearchResult.isDisplayed()) {
+	   	 String errorMessage = "No Search Result is not displayed";
+	        logger.error(errorMessage);
+	   }else {
+	   	String successMessage = "No Search Result is displayed";
+	       logger.info(successMessage);
+	   }
+}
+
+public void setLimitOfSearchResults() {
+	
+	HelperFunctions.waitForPageToLoad(3);
+	myProductSearchField.click();
+	myProductSearchField.sendKeys("Check-In");
+	myProductSearchField.sendKeys(Keys.ENTER);
+	HelperFunctions.waitForPageToLoad(3);
+	HelperFunctions.staticWait(2);
+	if (closeButtonforCookies.isDisplayed() && closeButtonforCookies.isEnabled()) {
+	
+		closeButtonforCookies.click();
+	    System.out.println("Close cookies.");
+	} else {
+	    System.out.println("Cookies already closed.");
+	}
+	HelperFunctions.staticWait(2);
+	
+	int webElementsListSize = searchProducts.size();
+
+	int elementsPerPage = 10;
+
+	for (int i = 0; i < elementsPerPage; i++) {
+	    System.out.println(searchProducts.get(i).getText());
+	}
+
+	if (webElementsListSize > elementsPerPage) {
+	
+	    WebElement nextButton = Driver.getDriver().findElement(By.xpath("(//span[@class='ap-pagination-btn-text'])[2]"));
+	    HelperFunctions.scrollToElement(nextButton);
+	    nextButton.click();
+
+	    for (int i = elementsPerPage; i < webElementsListSize; i++) {
+	        System.out.println(searchProducts.get(i).getText());
+	    }
+	}
+
+	
+
+	
+}
+public void setOrangeSearchResults() {
+	
+	HelperFunctions.waitForPageToLoad(3);
+	myProductSearchField.click();
+	myProductSearchField.sendKeys("Check-In");
+	myProductSearchField.sendKeys(Keys.ENTER);
+	HelperFunctions.waitForPageToLoad(3);
+	HelperFunctions.staticWait(2);
+	if (closeButtonforCookies.isDisplayed() && closeButtonforCookies.isEnabled()) {
+	
+		closeButtonforCookies.click();
+	    System.out.println("Close cookies.");
+	} else {
+	    System.out.println("Cookies already closed.");
+	}
+	HelperFunctions.staticWait(2);
+	
+	String expectedColorValue = "rgba(255, 165, 0, 1)";
+
+	
+	Actions actions = new Actions(Driver.getDriver());
+	actions.moveToElement(firstSearchResult).moveToElement(firstSearchResult, firstSearchResult.getSize().getWidth()/2, firstSearchResult.getSize().getHeight()/2).build().perform();
+	HelperFunctions.staticWait(2);
+	String colorValue = firstSearchResult.getCssValue("color");
+	System.out.println(colorValue);
+	Assert.assertEquals("Color value of element is not as expected", expectedColorValue, colorValue);
+	
+
+	
+
+	
+}
+public void setMyProductSearchBar() {
+	
+	HelperFunctions.waitForPageToLoad(5);
+	Point searchBarLocation = myProductSearchField.getLocation();
+    System.out.println(searchBarLocation);
+	Assert.assertTrue(searchBarLocation.getY() <= 200);
+	
+	
+}
+public void setFilterMyProductSearch() {
+	
+	HelperFunctions.waitForPageToLoad(3);
+	myProductSearchField.click();
+	myProductSearchField.sendKeys("Check-In");
+	myProductSearchField.sendKeys(Keys.ENTER);
+	HelperFunctions.waitForPageToLoad(3);
+	if(productDropdown.isEnabled() && catDropdown.isDisplayed() && sortingDropdown.isDisplayed()) {
+    	Assert.assertTrue(true);
+    }else {
+    	Assert.assertTrue(false);
+    }
+	HelperFunctions.staticWait(2);
+	catDropdown.click();
+	for (int i = 0; i < 3 && i < products.size(); i++) {
+	    WebElement checkbox = products.get(i);
+	    if (!checkbox.isSelected()) {
+	        checkbox.click();
+	    }
+	}
+	 HelperFunctions.staticWait(2);
+	 for (int i = 0; i < 3 && i < products.size(); i++) {
+		    WebElement checkBox = products.get(i);
+		    if (checkBox.isSelected()) {
+		        Assert.assertTrue(true);
+		    }else {
+		    	 String errorMessage = "Verification failed";
+			        logger.error(errorMessage);
+		    }
+		}
+	HelperFunctions.staticWait(2);
+	
+	
+}
+
+public void setInputKeywords() {
+	
+	HelperFunctions.waitForPageToLoad(3);
+	myProductSearchField.click();
+	myProductSearchField.sendKeys("Check-In");
+	myProductSearchField.sendKeys(Keys.ENTER);
+	HelperFunctions.waitForPageToLoad(3);
+	if(productDropdown.isEnabled() && catDropdown.isDisplayed() && sortingDropdown.isDisplayed()) {
+    	Assert.assertTrue(true);
+    }else {
+    	Assert.assertTrue(false);
+    }
+	HelperFunctions.staticWait(2);
+
+	
+	
+}
+
+public void setSearchingProducts() {
+	
+	HelperFunctions.waitForPageToLoad(3);
+	myProductSearchField.click();
+	String product="Check-In";
+	myProductSearchField.sendKeys(product);
+	myProductSearchField.sendKeys(Keys.ENTER);
+	HelperFunctions.waitForPageToLoad(3);
+	if(productDropdown.isEnabled() && catDropdown.isDisplayed() && sortingDropdown.isDisplayed()) {
+    	Assert.assertTrue(true);
+    }else {
+    	Assert.assertTrue(false);
+    }
+	HelperFunctions.staticWait(2);
+	if(firstSearchResult.getText().equals(product)) {
+		Assert.assertTrue(true);
+	}else {
+    	Assert.assertTrue(false);
+    }
+
+	
+	
+}
+public void setUsingGlobalSearch() {
+	
+	HelperFunctions.waitForPageToLoad(3);
+	searchButton.click();
+	HelperFunctions.staticWait(3);	
+	searchInput.sendKeys("products");
+	searchInput.sendKeys(Keys.ENTER);
+	HelperFunctions.waitForPageToLoad(3);
+    HelperFunctions.staticWait(3);
+    if(productDropdown.isDisplayed() && catDropdown.isDisplayed() && sortingDropdown.isDisplayed()) {
+    	Assert.assertTrue(true);
+    }else {
+    	Assert.assertTrue(false);
+    }
+	HelperFunctions.staticWait(2);
+	
+	
+}
+public void setMyProductSearchAccessibility() {
+	
+	HelperFunctions.waitForPageToLoad(3);
+	if(myProductSearchField.isDisplayed()&& !loginLink.isDisplayed()) {
+		Assert.assertTrue(true);
+	}else {
+    	Assert.assertTrue(false);
+    }
+	HelperFunctions.staticWait(2);
+	
+	
+}
+public void setAcceptingSpecialChar() {
+	
+	HelperFunctions.waitForPageToLoad(5);
+	myProductSearchField.click();
+	myProductSearchField.sendKeys("test@#$%^&*()");
+	myProductSearchField.sendKeys(Keys.ENTER);
+	HelperFunctions.waitForPageToLoad(5);
+	if(productDropdown.isEnabled() && catDropdown.isDisplayed() && sortingDropdown.isDisplayed()) {
+    	Assert.assertTrue(true);
+    }else {
+    	Assert.assertTrue(false);
+    }
+
+	
+	
+}
+public void setSearchBarLight() {
+	
+	HelperFunctions.waitForPageToLoad(5);
+	myProductSearchField.click();
+	HelperFunctions.staticWait(1);
+	  String borderStyle = myProductSearchField.getCssValue("border-style");
+	    String borderColor = myProductSearchField.getCssValue("border-color");
+	    String boxShadow = myProductSearchField.getCssValue("box-shadow");
+
+	    if (borderStyle.equals("solid") && borderColor.equals("#007eff") && boxShadow.equals("rgba(0, 126, 255, 0.5) 0px 0px 5px 0px")) {
+	        System.out.println("Search bar border has changed on click.");
+	    } else {
+	        System.out.println("Search bar border has not changed on click.");
+	    }
+	
+	
+}
 	
 	
 	

@@ -1451,3 +1451,33 @@
 2023-03-04 09:29:53,561 - BasePage -INFO - The footer is displayed on privacy page
 2023-03-04 09:30:00,616 - BasePage -INFO - The footer is displayed on accessibility page
 2023-03-04 09:42:13,737 - HomePage -INFO - Tile shadow has changed
+2023-03-08 12:40:57,162 - ProductPage -INFO - First tab is active
+2023-03-08 12:43:44,544 - ProductPage -INFO - First tab is active
+2023-03-08 12:48:07,147 - ProductPage -ERROR - Modal is not closed
+2023-03-08 12:49:00,673 - ProductPage -INFO - Modal is closed
+2023-03-08 12:51:55,888 - ProductPage -INFO - Modal is closed
+2023-03-08 13:09:27,999 - AuthoringPage -ERROR - Page is not unpublished
+2023-03-08 13:13:04,668 - AuthoringPage -ERROR - Page is not unpublished
+2023-03-08 15:04:09,993 - ProductPage -INFO - Modal is closed
+2023-03-08 15:21:19,095 - ProductPage -INFO - Banner is displayed
+2023-03-08 15:21:22,455 - ProductPage -INFO - Banner is displayed
+2023-03-09 10:37:16,005 - HomePage -INFO - Each link is displayed
+2023-03-09 10:37:16,022 - HomePage -INFO - Each link is displayed
+2023-03-09 10:40:44,319 - HomePage -INFO - Each link is displayed
+2023-03-09 10:40:44,333 - HomePage -INFO - Each link is displayed
+2023-03-09 10:40:48,374 - HomePage -INFO - Each link is not displayed
+2023-03-09 10:40:48,387 - HomePage -INFO - Each link is not displayed
+2023-03-09 12:04:14,756 - ProductPage -INFO - No Search Result is displayed
+2023-03-09 19:39:07,896 - HomePage -INFO - dropdowns are displayed
+2023-03-10 12:55:33,110 - ProductListingPage -INFO - Title and description match for element
+2023-03-10 12:55:33,114 - ProductListingPage -INFO - Title and description match for element
+2023-03-10 12:55:33,114 - ProductListingPage -INFO - Title and description match for element
+2023-03-10 12:55:33,115 - ProductListingPage -INFO - Title and description match for element
+2023-03-10 12:55:33,115 - ProductListingPage -INFO - Title and description match for element
+2023-03-10 12:55:33,115 - ProductListingPage -INFO - Title and description match for element
+2023-03-10 13:03:23,452 - ProductListingPage -INFO - Title and description match for element
+2023-03-10 13:03:23,455 - ProductListingPage -INFO - Title and description match for element
+2023-03-10 13:03:23,455 - ProductListingPage -INFO - Title and description match for element
+2023-03-10 13:03:23,455 - ProductListingPage -INFO - Title and description match for element
+2023-03-10 13:03:23,456 - ProductListingPage -INFO - Title and description match for element
+2023-03-10 13:03:23,456 - ProductListingPage -INFO - Title and description match for element
